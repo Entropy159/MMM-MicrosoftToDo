@@ -19,7 +19,7 @@ module.exports = NodeHelper.create({
     if (notification === "FETCH_DATA") {
       this.fetchList(payload);
     } else if (notification === "COMPLETE_TASK") {
-      this.completeTask(payload.listId, payload.taskId, payload.config);
+      this.completeTask(payload.taskId, payload.config);
     } else {
       Log.warn(`${this.name} - did not process event: ${notification}`);
     }
