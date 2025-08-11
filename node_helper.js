@@ -66,11 +66,6 @@ module.exports = NodeHelper.create({
   fetchList: function (config) {
     const self = this;
 
-    const arrayBuffer = new TextEncoder("utf-8").encode(config.password)
-    const hashAsArrayBuffer = crypto.subtle.digest('SHA-256', arrayBuffer);
-    const uint8ViewOfHash = new Uint8Array(hashAsArrayBuffer);
-    const encrypted = Array.from(uint8ViewOfHash).map((b) => b.toString(16).padStart(2, '0')).join('');
-
     var getListUrl = `https://todo.entropy159.workers.dev/api/simple/?${config.user}`;
     fetch(getListUrl)
       .then(self.checkFetchStatus)
