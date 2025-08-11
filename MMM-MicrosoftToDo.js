@@ -4,32 +4,16 @@ global Module, Log, moment
 Module.register("MMM-MicrosoftToDo", {
   // Module config defaults.           // Make all changes in your config.js file
   defaults: {
-    oauth2ClientSecret: "",
-    oauth2RefreshToken: "",
-    oauth2ClientId: "",
-    orderBy: "dueDate",
+    username: "",
+    password: "",
     hideIfEmpty: false,
     showCheckbox: true,
     maxWidth: 450,
     itemLimit: 200,
-    completeOnClick: false,
-    showDueDate: false,
-    dateFormat: "ddd MMM Do [ - ]",
+    completeOnClick: true,
     refreshSeconds: 60,
     fade: false,
     fadePoint: 0.5,
-    useRelativeDate: false,
-    plannedTasks: {
-      enable: false,
-      includedLists: [".*"], // this is ignored as a default value as the whole
-      // 'plannedTasks' object is replaced when property 'enable' is set to true
-      duration: {
-        weeks: 2 // this is ignored as a default value as the whole
-        // 'plannedTasks' object is replaced when property 'enable' is set to
-        // true
-      }
-    },
-    colorDueDate: false,
     highlightTagColor: null
   },
 
@@ -55,63 +39,10 @@ Module.register("MMM-MicrosoftToDo", {
       // Define variable itemCounter and set to 0
       var itemCounter = 0;
       this.list.forEach(function (element) {
-        // Get due date array
-        var taskDue = "";
 
         var listSpan = document.createElement("span");
         if (self.config.showCheckbox) {
           listSpan.append(document.createTextNode("▢ "));
-        }
-
-        if (self.config.showDueDate === true && element.dueDateTime != null) {
-          // timezone is returned as UTC
-          taskDue = Object.values(element.dueDateTime);
-          // converting time zone to browser provided timezone and formatting time according to configuration
-          var taskDueDate = moment
-            .utc(taskDue[0])
-            .tz(Intl.DateTimeFormat().resolvedOptions().timeZone);
-
-          if (self.config.useRelativeDate) {
-            taskDueDate = taskDueDate.add(1, "d"); // Due date in Task defaults to midnight on the day, so add a day to shift due date to midnight the next day
-          }
-
-          var classNames = ["mmm-task-due-date"];
-          if (self.config.colorDueDate) {
-            const now = moment();
-            const next24 = moment().add(1, "d");
-            // overdue
-            if (taskDueDate.isBefore(now)) {
-              classNames.push("overdue");
-            }
-
-            // due in the next day
-            if (taskDueDate.isBetween(now, next24)) {
-              classNames.push("soon");
-            }
-
-            if (taskDueDate.isAfter(next24)) {
-              classNames.push("upcoming");
-            }
-          }
-          if (self.config.useRelativeDate) {
-            taskDue = `${taskDueDate.fromNow()} - `;
-          } else {
-            taskDue = taskDueDate.format(self.config.dateFormat);
-          }
-          var taskText = document.createElement("i");
-          taskText.innerText = taskDue;
-          taskText.className = classNames.join(" ");
-
-          listSpan.append(taskText);
-
-          // add icon to recurring items
-          if (element.recurrence != null) {
-            var recurringIcon = document.createElement("i");
-            recurringIcon.className = "fas fa-sync";
-            recurringIcon.style = "margin-right:5px;";
-            recurringIcon.innerText = " - ";
-            listSpan.append(recurringIcon);
-          }
         }
 
         var listItem = document.createElement("li");
@@ -140,26 +71,7 @@ Module.register("MMM-MicrosoftToDo", {
               0.9 * (1 - (1 / steps) * (currentStep - 1));
           }
         }
-
-        // extract tags (#Tag) from subject an display them differently
-        if (element.title) {
-          var titleTokens = element.title.match(
-            /((#[^\s]+)|(?!\s)[^#]*|\s+)+?/g
-          );
-
-          titleTokens.forEach((token) => {
-            if (token.startsWith("#")) {
-              var tagNode = document.createElement("span");
-              tagNode.innerText = token;
-              if (self.config.highlightTagColor != null) {
-                tagNode.style.color = self.config.highlightTagColor;
-              }
-              listSpan.append(tagNode);
-            } else {
-              listSpan.append(document.createTextNode(token));
-            }
-          });
-        }
+        listSpan.append(document.createTextNode(element.name));
         listItem.appendChild(listSpan);
 
         // complete task when clicked on it
