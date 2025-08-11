@@ -33,7 +33,7 @@ module.exports = NodeHelper.create({
     // copy context to be available inside callbacks
     const self = this;
 
-    var patchUrl = `https://todo.entropy159.workers.dev/api/simple/${self.user}`;
+    var patchUrl = `https://todo.entropy159.workers.dev/api/simple/?${config.user}`;
 
     const updateBody = {
       taskName: taskId
@@ -71,9 +71,7 @@ module.exports = NodeHelper.create({
     const uint8ViewOfHash = new Uint8Array(hashAsArrayBuffer);
     const encrypted = Array.from(uint8ViewOfHash).map((b) => b.toString(16).padStart(2, '0')).join('');
 
-    const user = config.username + "-" + encrypted;
-
-    var getListUrl = `https://todo.entropy159.workers.dev/api/simple/?${user}`;
+    var getListUrl = `https://todo.entropy159.workers.dev/api/simple/?${config.user}`;
     fetch(getListUrl)
       .then(self.checkFetchStatus)
       .then((response) => response.json())

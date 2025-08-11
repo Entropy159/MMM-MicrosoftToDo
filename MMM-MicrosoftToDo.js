@@ -2,10 +2,8 @@
 global Module, Log, moment
 */
 Module.register("MMM-MicrosoftToDo", {
-  // Module config defaults.           // Make all changes in your config.js file
   defaults: {
-    username: "",
-    password: "",
+    user: "",
     hideIfEmpty: false,
     showCheckbox: true,
     maxWidth: 450,
