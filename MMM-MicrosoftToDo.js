@@ -1,10 +1,4 @@
 /* eslint-disable prettier/prettier */
-const dayjs = require("dayjs");
-var utc = require("dayjs/plugin/utc");
-var timezone = require("dayjs/plugin/timezone");
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 /*
 global Module, Log
 */
@@ -46,7 +40,7 @@ Module.register("MMM-MicrosoftToDo", {
       this.list.forEach(function (task) {
 
         var listSpan = document.createElement("span");
-        if (task.dueDate && dayjs(task.dueDate).isBefore(dayjs(), 'day')) {
+        if (task.overdue) {
           listSpan.classList.add("overdue");
         }
         if (self.config.showCheckbox) {

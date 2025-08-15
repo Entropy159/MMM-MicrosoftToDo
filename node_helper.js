@@ -76,6 +76,19 @@ module.exports = NodeHelper.create({
 
         const limit = RateLimit(2);
         limit();
+        if (Array.isArray(data.lists)) {
+          data.lists.forEach(list => {
+            if (Array.isArray(list.tasks)) {
+              list.tasks.forEach(task => {
+                Log.info(`Task: ${task.name}, due date: ${task.dueDate}`);
+                if (task.dueDate && dayjs(task.dueDate).isBefore(dayjs(), 'day')) {
+                  Log.info(`Overdue: yes}`);
+                  task.overdue = true;
+                }
+              });
+            }
+          });
+        }
         self.sendSocketNotification(`DATA_FETCHED_${config.id}`, data);
       })
       .catch((error) => {
