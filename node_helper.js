@@ -71,31 +71,25 @@ module.exports = NodeHelper.create({
       .then(self.checkFetchStatus)
       .then((response) => response.json())
       .then(self.checkBodyError)
-      .then((responseData) => {
-        self.getTasks(config, responseData);
+      .then((data) => {
+        Log.debug(`${this.name} - received data ${data}`);
+
+        const limit = RateLimit(2);
+        limit();
+        data.lists.forEach(list => {
+          list.tasks.forEach(task => {
+            if (task.dueDate && dayjs(task.dueDate).isBefore(dayjs(), 'day')) {
+              task.overdue = true;
+            }
+          });
+        });
+        self.sendSocketNotification(`DATA_FETCHED_${config.id}`, data);
       })
       .catch((error) => {
         Log.error(`[MMM-MicrosoftToDo]: fetchList ${getListUrl}`);
         self.logError(error);
       });
   },
-  getTasks: function (config, data) {
-    const self = this;
-    Log.debug(`${this.name} - received data ${data}`);
-
-    const limit = RateLimit(2);
-    limit();
-    self.sendSocketNotification(`DATA_FETCHED_${config.id}`, data);
-  },
-  // taskSortCompare: function (firstTask, secondTask) {
-  //   if (firstTask.parsedDate === undefined) {
-  //     return 1;
-  //   }
-  //   if (secondTask.parsedDate === undefined) {
-  //     return -1;
-  //   }
-  //   return compareAsc(firstTask.parsedDate, secondTask.parsedDate);
-  // },
 
   checkFetchStatus: function (response) {
     if (response.ok) {

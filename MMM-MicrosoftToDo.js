@@ -1,7 +1,4 @@
 /* eslint-disable prettier/prettier */
-
-const dayjs = require("dayjs");
-
 /*
 global Module, Log
 */
@@ -43,7 +40,7 @@ Module.register("MMM-MicrosoftToDo", {
       this.list.forEach(function (element) {
 
         var listSpan = document.createElement("span");
-        if (element.dueDate && dayjs(element.dueDate).startOf('day').isBefore(dayjs().startOf('day'))) {
+        if (element.overdue) {
           listSpan.classList.add("overdue");
         }
         if (self.config.showCheckbox) {
