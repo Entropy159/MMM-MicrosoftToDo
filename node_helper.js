@@ -1,14 +1,13 @@
-/*
-  Node Helper module for MMM-MicrosoftToDo
-
-  Purpose: Microsoft's OAutht 2.0 Token API endpoint does not support CORS,
-  therefore we cannot make AJAX calls from the browser without disabling
-  webSecurity in Electron.
-*/
 var NodeHelper = require("node_helper");
 const Log = require("logger");
 const { add, formatISO9075, compareAsc, parseISO } = require("date-fns");
 const { RateLimit } = require("async-sema");
+const dayjs = require("dayjs");
+var utc = require("dayjs/plugin/utc");
+var timezone = require("dayjs/plugin/timezone");
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 module.exports = NodeHelper.create({
   start: function () {
@@ -66,7 +65,7 @@ module.exports = NodeHelper.create({
   fetchList: function (config) {
     const self = this;
 
-    var getListUrl = `https://todo.entropy159.workers.dev/api/simple/?user=${config.user}`;
+    var getListUrl = `https://todo.entropy159.workers.dev/api/simple/?user=${config.user}&date=${dayjs.tz.guess()}`;
     fetch(getListUrl)
       .then(self.checkFetchStatus)
       .then((response) => response.json())
