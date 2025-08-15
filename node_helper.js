@@ -33,7 +33,7 @@ module.exports = NodeHelper.create({
     // copy context to be available inside callbacks
     const self = this;
 
-    var patchUrl = `https://todo.entropy159.workers.dev/api/simple/?${config.user}`;
+    var patchUrl = `https://todo.entropy159.workers.dev/api/simple/?user=${config.user}`;
 
     const updateBody = {
       taskName: taskId
@@ -66,7 +66,7 @@ module.exports = NodeHelper.create({
   fetchList: function (config) {
     const self = this;
 
-    var getListUrl = `https://todo.entropy159.workers.dev/api/simple/?${config.user}`;
+    var getListUrl = `https://todo.entropy159.workers.dev/api/simple/?user=${config.user}`;
     fetch(getListUrl)
       .then(self.checkFetchStatus)
       .then((response) => response.json())
