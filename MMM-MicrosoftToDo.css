@@ -6,6 +6,10 @@
   color: red;
 }
 
+.overdue {
+  color: red;
+}
+
 .mmm-task-due-date.soon {
   color: orange;
 }

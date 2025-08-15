@@ -1,4 +1,7 @@
 /* eslint-disable prettier/prettier */
+
+const dayjs = require("dayjs");
+
 /*
 global Module, Log
 */
@@ -40,6 +43,9 @@ Module.register("MMM-MicrosoftToDo", {
       this.list.forEach(function (element) {
 
         var listSpan = document.createElement("span");
+        if (element.dueDate && dayjs(element.dueDate).startOf('day').isBefore(dayjs().startOf('day'))) {
+          listSpan.classList.add("overdue");
+        }
         if (self.config.showCheckbox) {
           listSpan.append(document.createTextNode("▢ "));
         }
@@ -130,7 +136,7 @@ Module.register("MMM-MicrosoftToDo", {
           if (!this.hidden) {
             Log.info(
               this.name +
-                " hiding module according to 'hideIfEmpty' configuration, since there are no tasks present in the list."
+              " hiding module according to 'hideIfEmpty' configuration, since there are no tasks present in the list."
             );
             this.hide();
           }
