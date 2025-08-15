@@ -76,8 +76,8 @@ module.exports = NodeHelper.create({
 
         const limit = RateLimit(2);
         limit();
-        if (Array.isArray(data.lists)) {
-          data.lists.forEach(list => {
+        if (Array.isArray(data)) {
+          data.forEach(list => {
             if (Array.isArray(list.tasks)) {
               list.tasks.forEach(task => {
                 Log.info(`Task: ${task.name}, due date: ${task.dueDate}`);
