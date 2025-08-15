@@ -1,4 +1,10 @@
 /* eslint-disable prettier/prettier */
+const dayjs = require("dayjs");
+var utc = require("dayjs/plugin/utc");
+var timezone = require("dayjs/plugin/timezone");
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 /*
 global Module, Log
 */
@@ -37,10 +43,10 @@ Module.register("MMM-MicrosoftToDo", {
     if (this.list.length !== 0) {
       // Define variable itemCounter and set to 0
       var itemCounter = 0;
-      this.list.forEach(function (element) {
+      this.list.forEach(function (task) {
 
         var listSpan = document.createElement("span");
-        if (element.overdue) {
+        if (task.dueDate && dayjs(task.dueDate).isBefore(dayjs(), 'day')) {
           listSpan.classList.add("overdue");
         }
         if (self.config.showCheckbox) {
@@ -73,7 +79,7 @@ Module.register("MMM-MicrosoftToDo", {
               0.9 * (1 - (1 / steps) * (currentStep - 1));
           }
         }
-        listSpan.append(document.createTextNode(element.name));
+        listSpan.append(document.createTextNode(task.name));
         listItem.appendChild(listSpan);
 
         // complete task when clicked on it
@@ -81,7 +87,7 @@ Module.register("MMM-MicrosoftToDo", {
           listItem.onclick = function () {
             self.sendSocketNotification("COMPLETE_TASK", {
               module: self.data.identifier,
-              taskId: element.name,
+              taskId: task.name,
               config: self.config
             });
           };
