@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 /*
-global Module, Log, moment
+global Module, Log
 */
 Module.register("MMM-MicrosoftToDo", {
   defaults: {

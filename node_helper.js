@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 var NodeHelper = require("node_helper");
 const Log = require("logger");
-const { add, formatISO9075, compareAsc, parseISO } = require("date-fns");
+// const { add, formatISO9075, compareAsc, parseISO } = require("date-fns");
 const { RateLimit } = require("async-sema");
 const dayjs = require("dayjs");
 var utc = require("dayjs/plugin/utc");
@@ -86,15 +87,15 @@ module.exports = NodeHelper.create({
     limit();
     self.sendSocketNotification(`DATA_FETCHED_${config.id}`, data);
   },
-  taskSortCompare: function (firstTask, secondTask) {
-    if (firstTask.parsedDate === undefined) {
-      return 1;
-    }
-    if (secondTask.parsedDate === undefined) {
-      return -1;
-    }
-    return compareAsc(firstTask.parsedDate, secondTask.parsedDate);
-  },
+  // taskSortCompare: function (firstTask, secondTask) {
+  //   if (firstTask.parsedDate === undefined) {
+  //     return 1;
+  //   }
+  //   if (secondTask.parsedDate === undefined) {
+  //     return -1;
+  //   }
+  //   return compareAsc(firstTask.parsedDate, secondTask.parsedDate);
+  // },
 
   checkFetchStatus: function (response) {
     if (response.ok) {
