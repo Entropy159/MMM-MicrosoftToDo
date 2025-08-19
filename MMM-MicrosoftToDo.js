@@ -81,7 +81,7 @@ Module.register("MMM-MicrosoftToDo", {
           listItem.onclick = function () {
             self.sendSocketNotification("COMPLETE_TASK", {
               module: self.data.identifier,
-              taskId: task.name,
+              taskId: task.id,
               config: self.config
             });
           };
