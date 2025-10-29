@@ -6,6 +6,10 @@
   color: red;
 }
 
+.task {
+  color: aqua;
+}
+
 .overdue {
   color: red;
 }

@@ -40,6 +40,7 @@ Module.register("MMM-MicrosoftToDo", {
       this.list.forEach(function (task) {
 
         var listSpan = document.createElement("span");
+        listSpan.classList.add("task");
         if (task.overdue) {
           listSpan.classList.add("overdue");
         }
