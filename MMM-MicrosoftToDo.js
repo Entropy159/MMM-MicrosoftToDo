@@ -91,6 +91,7 @@ Module.register("MMM-MicrosoftToDo", {
       });
     } else {
       // otherwise indicate that there are no list entries
+      listWrapper.classList.add("notasks");
       listWrapper.innerHTML +=
         '<li style="list-style-position:inside; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' +
         this.translate("NO_ENTRIES") +

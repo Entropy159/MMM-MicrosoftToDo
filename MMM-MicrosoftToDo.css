@@ -6,6 +6,10 @@
   color: red;
 }
 
+.notasks {
+  color: green;
+}
+
 .task {
   color: aqua;
 }
